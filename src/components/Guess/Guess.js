@@ -5,7 +5,8 @@ function Guess({guess}) {
   return (
     <p className="guess">
       {range(5).map((cell) => {
-        return <span key={cell} className="cell">{guess && guess.label[cell]}</span>
+        const statusClass = guess ? guess.status[cell].status : '';
+        return <span key={cell} className={`cell ${statusClass}`}>{guess && guess.label[cell]}</span>
       })}
     </p>
   );

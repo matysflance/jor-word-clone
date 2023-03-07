@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { sample } from '../../utils';
+import { checkGuess } from '../../game-helpers';
 import { WORDS } from '../../data';
 import GuessForm from '../GuessForm';
 import GuessResults from '../GuessResults';
@@ -16,7 +17,8 @@ function Game() {
   const handleAddNewGuess = (label) => {
     const newGuess = {
       id: crypto.randomUUID(),
-      label
+      label,
+      status: checkGuess(label, answer)
     }
     const nextGuesses = [...guesses, newGuess];
     setGuesses(nextGuesses);
