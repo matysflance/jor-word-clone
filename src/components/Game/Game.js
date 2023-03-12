@@ -9,14 +9,12 @@ import GuessResults from '../GuessResults';
 import WonBanner from '../WonBanner/WonBanner';
 import LostBanner from '../LostBanner/LostBanner';
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
-
 function Game() {
+  const [answer, setAnswer] = React.useState(sample(WORDS))
   const [guesses, setGuesses] = React.useState([]);
   const [gameStatus, setGameStatus] = React.useState('running');
+
+  console.info({ answer });
 
   const handleAddNewGuess = (label) => {
     const newGuess = {
@@ -34,17 +32,22 @@ function Game() {
     }
   }
 
+  const handleRestart = () => {
+    setGuesses([]);
+    setGameStatus('running');
+    const newAnswer = sample(WORDS);
+    setAnswer(newAnswer);
+  }
+
   return <>
-    {gameStatus}
     <GuessResults guesses={guesses} />
     <GuessForm gameStatus={gameStatus} handleAddNewGuess={handleAddNewGuess} />
     {gameStatus === 'won' && (
-      <WonBanner numOfGuesses={guesses.length}/>
+      <WonBanner numOfGuesses={guesses.length} handleRestart={handleRestart} />
     )}
     {gameStatus === 'lost' && (
-      <LostBanner answer={answer}/>
+      <LostBanner answer={answer} handleRestart={handleRestart} />
     )}
-    
   </>;
 }
 
